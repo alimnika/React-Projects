@@ -1,9 +1,15 @@
 import React, {useState} from "react";
 import Item from './components/Item'
+import {library} from '@fortawesome/fontawesome-svg-core';
+// import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faTrash,faEdit,faPlus} from '@fortawesome/free-solid-svg-icons'
+library.add(faTrash,faEdit,faPlus)
+
 const Todo=()=>{
     const [list, setList]=useState([]);
     const [todo, setTodo] = useState('')
 
+    let image=["https://images.pexels.com/photos/636243/pexels-photo-636243.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"]
     const handleChange=(e)=>{
         setTodo(e.target.value)
     }
@@ -20,40 +26,33 @@ const Todo=()=>{
         }
         setList([...list, newList])
     }
-        const completedTodo=(index)=>{
-            const addList =list.map(elem=>{
-                if(elem.id===index){
-                    elem.iscompleted=!elem.iscompleted
-                    console.log(addList)   
-                }
-                return(
-                    elem
-                )
-            })
-        }
+    
     
     return(
-        <div className ="App">
+        <div className ="todo-app">
             <h1>ToDo List</h1>
-            <input type="text" 
+            <input type="text"
+            className='todo-input' 
              placeholder="Enter your task"
              value={todo}
              onChange={handleChange}/>
-            <button onClick={handleClick}>Add</button>
+            <button className="todo-button" onClick={handleClick}>Add</button>
             <div>
                 {list.length > 0 ?(
-                    list.map(todoItem=>{
+                    list.map((todoItem,index)=>{
                         return (
                             <Item
+                            index={index}
                             todoItem={todoItem}
-                            completeTodo={completedTodo}
                             list={list}
                             key={todoItem.id}
                             />
                         ) 
                     })
                 ):(
-                    <h1>You don't have atask</h1>
+                    <>
+                    <img src={image} alt=""/>
+                    </>
                 )
                 }
             </div>

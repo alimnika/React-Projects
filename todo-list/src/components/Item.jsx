@@ -1,38 +1,49 @@
 import { useState } from "react";
 import React from "react";
-const Item =({todoItem, completeTodo, list})=>{
+import {library} from '@fortawesome/fontawesome-svg-core';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faTrash,faEdit,faPlus} from '@fortawesome/free-solid-svg-icons'
+library.add(faTrash,faEdit,faPlus)
+
+
+const Item =({todoItem, index, setList, list})=>{
     const [edit,setEdit] =useState(false);
     const [todo, setTodo] = useState(todoItem.task)
+    const [del, setDel] = useState([])
 
     const handleEdit=()=>{
         setEdit(!edit)
+        // console.log(setEdit(!edit))
     }
     const handleEditChange =(e)=>{
-        setTodo(e.target.value)
+            setTodo(e.target.value)
     }
     const handleEditSubmit =(id)=>{
         const editedList= list.map((el)=>{
-            if(el.id=== id){
-                console.log(id)
+            if(el.id === id){
+                // console.log(id)
                 el.task=todo
                 // console.log(editedList)
             }
             return el;
         })
     }
+    const deleteTasks=(e)=>{
+        console.log(e)
+        del.splice(e,1)
+        setDel(del)
+    }
     return(
-        <div>
+        <div className="todo-container" >
             { !edit ?(
                 <>
-                <label>{todoItem.task}</label>
                 <input 
-                type=""checkbox
-                checked ={todoItem.isCompleted}
+                type="text"
                 value={todoItem.task}
-                onChange={()=>completeTodo(todoItem.id)}
-                disable ={todoItem.isCompleted ? true:false}/>
-                {/* <span></span> */}
-                <button onClick={handleEdit} disable={todoItem.isCompleted}>Edit</button>
+                onClick={handleEditChange}
+                disabled ={todoItem.isCompleted ? true:false}/>
+                <i className="edit" onClick={handleEdit} disabled={todoItem.isCompleted}><FontAwesomeIcon  icon="edit"/> </i>
+                <i className="trash" onClick={(e)=>{deleteTasks(todoItem.task)}}><FontAwesomeIcon   icon="trash"/></i>
                 </>
                ):(
                    <>
@@ -42,8 +53,8 @@ const Item =({todoItem, completeTodo, list})=>{
                    name="todo"
                    onChange={handleEditChange}
                    />
-                   <button onClick={handleEditSubmit(todoItem.id)}>Cancel</button>
-                   <button onClick={handleEdit}>Sumbit</button>
+                   <span onClick={handleEditSubmit(todoItem.id)}></span>
+                   <i className="plus" onClick={handleEdit}><FontAwesomeIcon  icon="plus"/></i>
                    </>
                )
                }
