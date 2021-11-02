@@ -9,6 +9,7 @@ const Todo=()=>{
     const [list, setList]=useState([]);
     const [todo, setTodo] = useState('')
 
+
     let image=["https://images.pexels.com/photos/636243/pexels-photo-636243.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"]
     const handleChange=(e)=>{
         setTodo(e.target.value)
@@ -24,10 +25,9 @@ const Todo=()=>{
             iscompleted: false
             
         }
-        setList([...list, newList])
+        setList([...list, newList,])
+        
     }
-    
-    
     return(
         <div className ="todo-app">
             <h1>ToDo List</h1>
@@ -40,12 +40,13 @@ const Todo=()=>{
             <div>
                 {list.length > 0 ?(
                     list.map((todoItem,index)=>{
+                        // console.log(index, 'from map')
                         return (
                             <Item
                             index={index}
                             todoItem={todoItem}
-                            list={list}
-                            key={todoItem.id}
+                            list={list} 
+                            key={todoItem.id}              
                             />
                         ) 
                     })

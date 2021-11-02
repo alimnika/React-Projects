@@ -6,11 +6,12 @@ import {faTrash,faEdit,faPlus} from '@fortawesome/free-solid-svg-icons'
 library.add(faTrash,faEdit,faPlus)
 
 
-const Item =({todoItem, index, setList, list})=>{
+const Item =({todoItem, index,  list,})=>{
     const [edit,setEdit] =useState(false);
     const [todo, setTodo] = useState(todoItem.task)
     const [del, setDel] = useState([])
 
+    // console.log(index)
     const handleEdit=()=>{
         setEdit(!edit)
         // console.log(setEdit(!edit))
@@ -21,18 +22,21 @@ const Item =({todoItem, index, setList, list})=>{
     const handleEditSubmit =(id)=>{
         const editedList= list.map((el)=>{
             if(el.id === id){
-                // console.log(id)
                 el.task=todo
-                // console.log(editedList)
             }
             return el;
         })
     }
-    const deleteTasks=(e)=>{
-        console.log(e)
-        del.splice(e,1)
-        setDel(del)
+    const deleteTask=(index)=>{
+        console.log(index)
+        const del = list.filter((ind)=>ind.id !== index)
+        // del.splice(index,1)
+       setDel(del)
+        //   console.log('ind',index)
+          console.log(del, "from filter")
+    
     }
+
     return(
         <div className="todo-container" >
             { !edit ?(
@@ -43,7 +47,7 @@ const Item =({todoItem, index, setList, list})=>{
                 onClick={handleEditChange}
                 disabled ={todoItem.isCompleted ? true:false}/>
                 <i className="edit" onClick={handleEdit} disabled={todoItem.isCompleted}><FontAwesomeIcon  icon="edit"/> </i>
-                <i className="trash" onClick={(e)=>{deleteTasks(todoItem.task)}}><FontAwesomeIcon   icon="trash"/></i>
+                <i className="trash" key={todoItem.id} onClick={()=>{deleteTask(index.id)}}><FontAwesomeIcon   icon="trash"/></i>
                 </>
                ):(
                    <>
